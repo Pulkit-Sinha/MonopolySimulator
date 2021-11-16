@@ -64,6 +64,10 @@ public class Board {
 		break;
 		
 		}
+		cardOnTop++;
+		if(cardOnTop == 14) 
+			cardOnTop = 0;
+		
 	}
 	
 	static void propertySquare(Property property, Player player) {
