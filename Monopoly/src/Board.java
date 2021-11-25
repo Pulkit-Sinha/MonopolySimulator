@@ -1,8 +1,15 @@
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class Board {
 	
 	static int cardOnTop = 0;
+	static int multithreadFlag = 0;
+	static int multi = 0;
+	
+	static int multithreadFlagGetter(Player player) {
+		return player.multithreadFlag;
+	}
 	
 	static void communityChest(Player player) {
 		switch(cardOnTop) {
@@ -177,6 +184,7 @@ public class Board {
 				railroad.sold = true;
 				railroad.owner = player;
 				player.railroadsOwned++;
+				player.railroads.add(railroad);
 				System.out.println(player.id + " bought " + railroad.name + " for $" + railroad.cost);
 			}
 		}
@@ -207,6 +215,7 @@ public class Board {
 				utility.sold = true;
 				utility.owner = player;
 				player.utilitiesOwned++;
+				player.utilities.add(utility);
 				System.out.println(player.id + " bought " + utility.name + " for $" + utility.cost);
 			}
 		}
@@ -316,7 +325,7 @@ public class Board {
 		System.out.println("How many players?");
 		Scanner sc = new Scanner(System.in);
 		int no_of_players = sc.nextInt();
-		while(no_of_players>8 || no_of_players<0) {
+		while(no_of_players>8 || no_of_players<2) {
 			System.out.println("Invalid input. Maximum 8 players allowed. Kindly input again.");
 			no_of_players = sc.nextInt();
 		}
@@ -326,184 +335,238 @@ public class Board {
 			}
 		boolean game_over = false;
 		while(game_over == false) {
+			
+
+			for(int i=0; i<no_of_players;i++) {
+				while(player[i].brownOwned==2 && player[i].money>700 && player[i].brownFlag == 0) {
+					player[i].brownFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Brown") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].brownFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].tealOwned==3 && player[i].money>700 && player[i].tealFlag == 0) {
+					player[i].tealFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Teal") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].tealFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].pinkOwned==3 && player[i].money>700 && player[i].pinkFlag == 0) {
+					player[i].pinkFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Pink") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].pinkFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].orangeOwned==3 && player[i].money>700 && player[i].orangeFlag == 0) {
+					player[i].orangeFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Orange") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].orangeFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].redOwned==3 && player[i].money>700 && player[i].redFlag == 0) {
+					player[i].redFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Red") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].redFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].yellowOwned==3 && player[i].money>700 && player[i].yellowFlag == 0) {
+					player[i].yellowFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Yellow") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].yellowFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].greenOwned==3 && player[i].money>700 && player[i].greenFlag == 0) {
+					player[i].greenFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Green") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].greenFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+				
+				while(player[i].blueOwned==2 && player[i].money>700 && player[i].blueFlag == 0) {
+					player[i].blueFlag =1;
+					for (int j = 0; j < player[i].properties.size(); j++) {
+						 if(player[i].properties.get(j).color == "Blue") {
+							 if(!player[i].properties.get(j).hotel) {
+								 player[i].blueFlag = 0;
+								 if(player[i].properties.get(j).houses<4) {
+										 player[i].money-=player[i].properties.get(j).houseCost;
+										 player[i].properties.get(j).houses++;
+										 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
+								 }
+								 else {
+									 player[i].money-=player[i].properties.get(j).houseCost;
+									 player[i].properties.get(j).hotel = true;
+									 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
+								 }
+							 }
+						 }
+					}
+			        
+				}
+			}
 	
 			for(int i=0;i<no_of_players;i++) {
 				
-				if(player[i].money<0) {
-					player[i].bankruptcy = true;
+				if(!player[i].bankruptcy) {
 					
-					while(player[i].brownOwned==2 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Brown") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
+					if(player[i].money<0) {
+						player[i].bankruptcy = true;
+							for (int j = 0; j < player[i].properties.size(); j++) {
+							player[i].properties.get(j).sold = false;
+							player[i].properties.get(j).owner = null;
+							player[i].properties.get(j).houses = 0;
+							player[i].properties.get(j).hotel = false;
 						}
-				        
-					}
-					
-					while(player[i].tealOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Teal") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
+						for(int j=0; j<player[i].utilities.size();j++) {
+							player[i].utilities.get(j).sold = false;
+							player[i].utilities.get(j).owner = null;
 						}
-				        
-					}
-					
-					while(player[i].pinkOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Pink") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
+						for(int j=0;j<player[i].railroads.size();j++) {
+							player[i].railroads.get(j).sold = false;
+							player[i].railroads.get(j).owner = null;
 						}
-				        
+						
 					}
-					
-					while(player[i].orangeOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Orange") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
-						}
-				        
-					}
-					
-					while(player[i].redOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Red") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
-						}
-				        
-					}
-					
-					while(player[i].yellowOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Yellow") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
-						}
-				        
-					}
-					
-					while(player[i].greenOwned==3 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Green") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
-						}
-				        
-					}
-					
-					while(player[i].blueOwned==2 && player[i].money>700) {
-						for (int j = 0; j < player[i].properties.size(); j++) {
-							 if(player[i].properties.get(j).color == "Blue") {
-								 if(!player[i].properties.get(j).hotel) {
-									 if(player[i].properties.get(j).houses<4) {
-											 player[i].money-=player[i].properties.get(j).houseCost;
-											 player[i].properties.get(j).houses++;
-											 System.out.println(player[i].id + " bought a house for " + player[i].properties.get(j).name + ". Has " + player[i].properties.get(j).houses + " houses now.");
-									 }
-									 else {
-										 player[i].money-=player[i].properties.get(j).houseCost;
-										 player[i].properties.get(j).hotel = true;
-										 System.out.println(player[i].id + " bought a hotel for " + player[i].properties.get(j).name);
-									 }
-								 }
-							 }
-						}
-				        
-					}
-					
 				}
+			}
+			
+			for(int i=0; i< no_of_players ; i++) {
 				
 				if(!player[i].bankruptcy) {
 					
-					int dice=(int)(Math.random()*6+1);
-					System.out.println(player[i].id+" rolled "+dice);
-					player[i].position+=dice;
-					if(player[i].position>39) {
-						player[i].money+=200;
-						player[i].position = (player[i].position%39)-1;
-						System.out.println(player[i].id+" passed GO and collected $200");
+					if(multi == 0) {
+					multithreadFlag = 0;
+					player[i].start();
+					
+					while(multithreadFlag==0) {
+						multithreadFlag = multithreadFlagGetter(player[i]);
 					}
+					
+					player[i].multithreadFlag = 0;
+					multithreadFlag = 0;
+					}
+					
+					else {
+						int dice=(int)(Math.random()*6+1);
+						System.out.println(player[i].id+" rolled "+dice);
+						player[i].position+=dice;
+						if(player[i].position>39) {
+							player[i].money+=200;
+							player[i].position = (player[i].position%39)-1;
+							System.out.println(player[i].id+" passed GO and collected $200");
+						}
+					}
+					
 					System.out.println(player[i].id+" landed on "+square[player[i].position].squareName);
 					
 					
@@ -632,6 +695,7 @@ public class Board {
 					
 					System.out.println(player[i].id + " turn ended.");
 				}
+				multi = 1;
 			}
 			
 			System.out.println("Game State:");
